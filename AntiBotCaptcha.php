@@ -91,24 +91,25 @@ if (!isset($_SESSION['option_count']))
 if (!isset($_SESSION['option_chars']))
 	$_SESSION['option_chars'] = 23456789;
 $count = $_SESSION["option_count"];
-$width=200; /* picture width */
+$width=250; /* picture width */
 $height=48; /* picture height */
 $font_size_min=20; /* minimum symobl height */
 $font_size_max=32; /* maximum symobl height */
 $font_file=(dirname(__FILE__))."/gothic.otf"; /* font name, otf or ttfs */
-$char_angle_min=-10; /* maximum skew of the symbol to the left*/
-$char_angle_max=10;	/*  maximum skew of the symbol to the right */
+$char_angle_min=-5; /* maximum skew of the symbol to the left*/
+$char_angle_max=5;	/*  maximum skew of the symbol to the right */
 $char_angle_shadow=5;	/*shadow size */
+$char_angle_shadow2=10;	/*shadow size */
 $char_align=40;	/* align symbol verticaly */
 $start=5;	/* first symbol position */
-$interval=16;	/* interval between the start position of characters */
+$interval=30;	/* interval between the start position of characters */
 $chars=$_SESSION['option_chars']; /* charset */
 $noise=0; /* noise level */
 
 $image=imagecreatetruecolor($width, $height);
 
-$background_color=imagecolorallocate($image, 255, 255, 255); /* rbg background color*/
-$font_color=imagecolorallocate($image, 0,0,0); /* rbg shadow color*/
+$background_color=imagecolorallocate($image, 0, 153, 0); /* rbg background color*/
+$font_color=imagecolorallocate($image, 255,0,0); /* rbg shadow color*/
 
 imagefill($image, 0, 0, $background_color);
 imagecolortransparent($image, $background_color);
@@ -122,7 +123,8 @@ for ($i=0; $i<$count; $i++)
 	$font_size=rand($font_size_min, $font_size_max);
 	$char_angle=rand($char_angle_min, $char_angle_max);
 	imagettftext($image, $font_size, $char_angle, $start, $char_align, $font_color, $font_file, $char);
-	imagettftext($image, $font_size, $char_angle+$char_angle_shadow*(rand(0, 1)*2-1), $start, $char_align, $background_color, $font_file, $char);
+	imagettftext($image, $font_size, $char_angle+$char_angle_shadow, $start, $char_align, $background_color, $font_file, $char);
+	imagettftext($image, $font_size, $char_angle+$char_angle_shadow2, $start, $char_align, $font_color, $font_file, $char);
 	$start+=$interval;
 	$str.=$char;
 }
